@@ -24,7 +24,9 @@ def main():
 def index():
     # for menu
     products = Product.query.all()
-    product_group = Product.query.group_by(Product.product_type).all()
+    #product_group = Product.query.group_by(Product.product_type).all()
+    product_group = Product.query.order_by(Product.product_type).all()
+    product_order=Product.query.distinct(Product.product_type)
     form = AddProductToCart()
     # product id list
     session_id = []
@@ -50,7 +52,7 @@ def index():
 
     return render_template('index.html', title='Menu', products=products, len=len(products),
                            product_group=product_group, form=form,
-                           price_total=price_total, quantity_total=quantity_total)
+                           price_total=price_total, quantity_total=quantity_total,product_order=product_order)
 
 
 @app.route('/make_order', methods=['GET', 'POST'])
