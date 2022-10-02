@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="cart">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            {% for item in products_in_order%}
+            <tr>
+                <td><a href="{{url_for('delete_item',id=item.id)}}" class="del" name="in_cart">
+                    <i class="bi bi-trash"></i></a></td>
+                <td>{{item.name}}</td>
+                <td>
+                    <form method="post">
+                        <input type="button" value="-" class="quantity_changes"
+                               onclick="window.location.href='{{url_for('minus_quantity',id=item.id)}}'">
+                        <input type="text" value="{{item.quantity}}" size="2" min="0" max="15">
+                        <input type="button" value="+" class="quantity_changes"
+                               onclick="window.location.href='{{url_for('plus_quantity',id=item.id)}}'">
+                    </form>
+                </td>
+                <td>{{item.price}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="cart_footer">
+            <p>Total ({{quantity_total}} items ): {{price_total}} <i class="bi bi-cash-stack"></i></p>
+            <form method="post">
+                <button class='btn make_order' name="Make_Order" type="submit" value="Make_Order">Make order</button>
+                {% with messages = get_flashed_messages(category_filter="make_order") %}
+                {% if messages %}
+                    <div class="msg_order">{{messages}}</div>
+                {%endif%}
+                {%endwith%}
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

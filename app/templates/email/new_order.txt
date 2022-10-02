@@ -1,0 +1,7 @@
+Dear {{ current_user.username }},
+
+Your order has been processed. Wait for the operator's call.
+
+Sincerely,
+
+The Fridays Team

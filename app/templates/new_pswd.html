@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row main_profile_block">
+    <div class="col-3"></div>
+    <div class="col-6 profile_edit_block" style="height:auto;">
+        <h3>Change password</h3>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                <i class="bi bi-key"></i>
+                {{ form.password.label }}<br>
+                {{ form.password(size=32) }}<br>
+                {% for error in form.password.errors %}
+                <span style="color:red;">[{{error}}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                <i class="bi bi-key-fill"></i>
+                {{ form.password2.label }}<br>
+                {{ form.password2(size=32) }}<br>
+                {% for error in form.password2.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p class="edit-btn">{{ form.submit() }}</p>
+            {% with messages = get_flashed_messages(category_filter="change_pswd") %}
+                {% if messages %}
+                    <div class="msg_order">{{messages}}</div>
+                {%endif%}
+            {%endwith%}
+        </form>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+{% endblock %}

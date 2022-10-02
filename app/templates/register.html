@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container sign-in">
+        <div class="signin-content">
+            <div class="signin-form">
+                <h1>Register</h1>
+                {% if form.validate_on_submit()%}
+                        {% with messages = get_flashed_messages(category_filter="register") %}
+                            {% if messages %}
+                                <div class="msg_order">{{messages}}</div>
+                            {%endif%}
+                        {%endwith%}
+                    {%endif%}
+                <form action="" method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    <p>
+                        <i class="bi bi-person-circle"></i>
+                        {{form.username.label}}<br>
+                        {{form.username(size=32)}}<br>
+                        {% for error in form.username.errors %}
+                        <span style="color:red;">[{{error}}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <i class="bi bi-envelope"></i>
+                        {{ form.email.label }}<br>
+                        {{ form.email(size=32) }}<br>
+                        {% for error in form.email.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <i class="bi bi-telephone"></i>
+                        {{ form.phone_number.label }}<br>
+                        {{ form.phone_number(size=32) }}<br>
+                        {% for error in form.phone_number.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <i class="bi bi-key"></i>
+                        {{ form.password.label }}<br>
+                        {{ form.password(size=32) }}<br>
+                        {% for error in form.password.errors %}
+                        <span style="color:red;">[{{error}}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <i class="bi bi-key-fill"></i>
+                        {{ form.password2.label }}<br>
+                        {{ form.password2(size=32) }}<br>
+                        {% for error in form.password2.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>{{ form.submit() }}</p>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

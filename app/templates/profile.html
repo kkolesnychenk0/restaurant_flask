@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row main_profile_block">
+        <div class="col-3"></div>
+        <div class="col-6 profile_block" style="height:auto;">
+            <h3>Profile</h3>
+            <div class="row profile">
+                <div class="col-sm-3">
+                    <p class="user_info">Username:</p>
+                    <p class="user_info">Email:</p>
+                    <p class="user_info">Phone number:</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="user_info_bd">{{user.username}}</p>
+                    <p class="user_info_bd">{{user.email}}</p>
+                    <p class="user_info_bd">{{user.phone_number}}</p>
+                </div>
+            </div>
+            <a href="{{ url_for('edit_profile') }}" class="edit_profile">Edit profile</a>
+        </div>
+        <div class="col-3"></div>
+    </div>
+{% endblock %}

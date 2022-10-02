@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+    <section id="menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-1" style="height:auto">
+                    <ul class="menu_left">
+                    {% for group in product_group%}
+                        <li><a href="#{{group.product_type}}">{{group.product_type}}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-8 row" style="height:auto">
+                    {% for prod in product_group %}
+                    <div class="type_name row">
+                        <h1 id="{{prod.product_type}}">{{prod.product_type}}</h1>
+                        {% for i in range(0,len)%}
+                        {% if products[i].product_type==prod.product_type %}
+                        <div class="col-sm-6 col-lg-3">
+                            <form method="post" action="/index">
+                                <div class="single-publication">
+                                    <figure>
+                                        <a href="#">
+                                            <img src="/static/img/food.png" style="width:150px;">
+                                        </a>
+                                        <ul>
+                                            <li><a href="#" title="Ingredients"><i class="bi bi-search"></i></a></li>
+                                        </ul>
+                                    </figure>
+                                    <div class="publication-content">
+                                        <h3><a href="#">{{products[i].product_name}}</a></h3>
+                                        <h4 class="price">$ {{products[i].price}}</h4>
+                                    </div>
+
+                                    <div class="add-to-cart">
+                                        <input type="hidden" name="code" value="{{products[i].product_id}}"/>
+                                        <input type="hidden" name="price" value="{{products[i].price}}"/>
+                                        <input type="hidden" name="name" value="{{products[i].product_name}}"/>
+                                        <input type="submit" value="Add to Cart" class="default-btn" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {% endif%}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-3" style="height:auto">
+                    <div class="shopping_cart" style="height:auto">
+                        <h5><i class="bi bi-cart2"></i> CART</h5>
+                        <hr style="color:#fff;">
+                        <div class="cart_body">
+                            <div class="cart_list">
+                                <table style="font-size:13px;">
+                                    <tr>
+                                        <th></th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                    {% for item in session['card']%}
+                                    <tr>
+                                        <td><a href="{{url_for('delete_item',id=item.id)}}" class="del">
+                                            <i class="bi bi-trash"></i></a></td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.quantity}}</td>
+                                        <td>{{item.price}}</td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+                            <div class="cart_footer">
+                                <p>Total ({{quantity_total}} items ) : {{price_total}} <i class="bi bi-cash-stack"></i></p>
+                                <a href="{{ url_for('make_order') }}">
+                                    <button class='btn make_order' name="Make Order" type="button">Make order</button>
+                                </a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
