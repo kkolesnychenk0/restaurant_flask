@@ -10,9 +10,10 @@ from app.email import send_email,send_password_reset_email
 
 
 def sum_order():
-    price_total = sum([list_item['price'] for list_item in session['card']])
-    quantity_total = sum([list_item['quantity'] for list_item in session['card']])
-    return price_total, quantity_total
+    if 'card' in session:
+        price_total = sum([list_item['price'] for list_item in session['card']])
+        quantity_total = sum([list_item['quantity'] for list_item in session['card']])
+        return price_total, quantity_total
 
 
 @app.route('/',methods=['GET'])
