@@ -10,10 +10,9 @@ from app.email import send_email,send_password_reset_email
 
 
 def sum_order():
-    if 'card'  in session:
-        price_total = sum([list_item['price'] for list_item in session['card']])
-        quantity_total = sum([list_item['quantity'] for list_item in session['card']])
-        return price_total, quantity_total
+    price_total = sum([list_item['price'] for list_item in session['card']])
+    quantity_total = sum([list_item['quantity'] for list_item in session['card']])
+    return price_total, quantity_total
 
 
 @app.route('/',methods=['GET'])
@@ -24,22 +23,28 @@ def main():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     # for menu
+    price_total=0
+    quantity_total=0
     products = Product.query.all()
     #product_group = Product.query.group_by(Product.product_type).all()
     #product_order = Product.query.order_by(Product.product_type).all()
     product_group=Product.query.distinct(Product.product_type)
     form = AddProductToCart()
     # product id list
-    session_id = []
-    for list_item in session['card']:
-        if list_item['id'] not in session_id:
-            session_id.append(list_item['id'])
+    #session_id = []
+    #for list_item in session['card']:
+    #    if list_item['id'] not in session_id:
+    #        session_id.append(list_item['id'])
 
     if form.is_submitted():
         # active button
         if 'card' not in session:
             session['card'] = []
         else:
+            session_id = []
+            for list_item in session['card']:
+                if list_item['id'] not in session_id:
+                    session_id.append(list_item['id'])
             if form.code.data in session_id:
                 for list_item in session['card']:
                     if list_item['id'] == form.code.data:
@@ -49,8 +54,9 @@ def index():
                 session['card'].append({'id': form.code.data, 'name': form.name.data, 'quantity': 1,
                                         'price': form.price.data})
             session.modified = True
-    price_total, quantity_total = sum_order()
 
+            price_total, quantity_total = sum_order()
+    #price_total, quantity_total = sum_order()
     return render_template('index.html', title='Menu', products=products, len=len(products),
                            product_group=product_group, form=form,
                            price_total=price_total, quantity_total=quantity_total)
