@@ -2,11 +2,11 @@
 import time
 from flask import render_template, flash, redirect, url_for, request, session
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, AddProductToCart,EditProfileForm, ChangePassword,NewPassword
+from app.forms import LoginForm, RegistrationForm, AddProductToCart, EditProfileForm, ChangePassword, NewPassword
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Product, Order, Products_for_order
 from werkzeug.urls import url_parse
-from app.email import send_email,send_password_reset_email
+from app.email import send_email, send_password_reset_email
 
 
 def sum_order():
@@ -16,28 +16,26 @@ def sum_order():
         return price_total, quantity_total
 
 
-@app.route('/',methods=['GET'])
+@app.route('/', methods=['GET'])
 def main():
-    return render_template('main.html',title='FRIDAYS')
+    return render_template('main.html', title='FRIDAYS')
 
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     # for menu
-    price_total=0
-    quantity_total=0
-    #session['card'] = []
+    price_total = 0
+    quantity_total = 0
     products = Product.query.all()
-    #product_group = Product.query.group_by(Product.product_type).all()
-    #product_order = Product.query.order_by(Product.product_type).all()
-    product_group=Product.query.with_entities(Product.product_type).distinct()
+    # product_group = Product.query.group_by(Product.product_type).all()
+    # product_order = Product.query.order_by(Product.product_type).all()
+    product_group = Product.query.with_entities(Product.product_type).distinct()
     form = AddProductToCart()
     # product id list
 
     if form.is_submitted():
         # active button
         if 'card' in session:
-            #session['card'] = []
             session_id = []
             for list_item in session['card']:
                 if list_item['id'] not in session_id:
@@ -52,7 +50,6 @@ def index():
                                         'price': form.price.data})
             session.modified = True
             price_total, quantity_total = sum_order()
-    #price_total, quantity_total = sum_order()
     return render_template('index.html', title='Menu', products=products, len=len(products),
                            product_group=product_group, form=form,
                            price_total=price_total, quantity_total=quantity_total)
@@ -65,11 +62,11 @@ def make_order():
     if request.method == 'POST':
         if current_user.is_authenticated:
             order = Order(user_id=current_user.id)
-            i=1
+            i = 1
             for item in session['card']:
                 product = Products_for_order(pr_id=f'{i}', product_id=item['id'], quantity=item['quantity'],
                                              total_price=item['price'], order_id=order.order_id)
-                i+=1
+                i += 1
                 if product.quantity == 0:
                     continue
                 else:
@@ -81,16 +78,16 @@ def make_order():
         db.session.commit()
         flash('You make an order', 'make_order')
         send_email('[Fridays] New order',
-               sender='admin@fridays.com',
-               recipients=[current_user.email],
-               text_body=render_template('email/new_order.txt',user=current_user),
-               html_body=render_template('email/new_order.html',user=current_user))
+                   sender='admin@fridays.com',
+                   recipients=[current_user.email],
+                   text_body=render_template('email/new_order.txt', user=current_user),
+                   html_body=render_template('email/new_order.html', user=current_user))
 
         session['card'] = []
         quantity_total = 0
         price_total = 0
 
-    return render_template('cart.html', title='Cart', products_in_order=session['card'],price_total=price_total,
+    return render_template('cart.html', title='Cart', products_in_order=session['card'], price_total=price_total,
                            quantity_total=quantity_total)
 
 
@@ -115,7 +112,7 @@ def minus_quantity(id):
         for key, value in list_item.items():
             if list_item[key] == id:
                 try:
-                    if list_item['quantity']>1:
+                    if list_item['quantity'] > 1:
                         price_for_one = list_item['price'] / list_item['quantity']
                         list_item['quantity'] -= 1
                         list_item['price'] -= price_for_one
@@ -125,7 +122,6 @@ def minus_quantity(id):
                 except ZeroDivisionError:
                     session['card'].pop(index)
                     return redirect(url_for('make_order'))
-
 
 
 @app.route('/plus_quantity/<int:id>')
@@ -148,7 +144,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password','login')
+            flash('Invalid username or password', 'login')
             return redirect(url_for('login'))
         else:
             login_user(user, remember=form.remember_me.data)
@@ -184,8 +180,9 @@ def register():
 @app.route('/profile/<username>', methods=['GET'])
 @login_required
 def profile(username):
-    user=User.query.filter_by(username=username).first_or_404()
-    return render_template('profile.html', title='Profile',user=user)
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('profile.html', title='Profile', user=user)
+
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -194,26 +191,28 @@ def edit_profile():
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.email = form.email.data
-        current_user.phone_number=form.phone_number.data
+        current_user.phone_number = form.phone_number.data
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        form.phone_number.data=current_user.phone_number
-    return render_template('edit_profile.html', title='Edit Profile',form=form)
+        form.phone_number.data = current_user.phone_number
+    return render_template('edit_profile.html', title='Edit Profile', form=form)
+
 
 @app.route('/check_data', methods=['GET', 'POST'])
 def check_data():
-    form=ChangePassword()
-    user=User.query.filter_by(email=form.email.data).first()
+    form = ChangePassword()
+    user = User.query.filter_by(email=form.email.data).first()
     if user:
         send_password_reset_email(user)
-        flash("Check your email for the instructions to reset your password.",'check_data')
+        flash("Check your email for the instructions to reset your password.", 'check_data')
     else:
-        flash('This email is not in the database','check_data')
+        flash('This email is not in the database', 'check_data')
     return render_template('change_pswrd.html', title='Reset Password', form=form)
+
 
 @app.route('/change_pswd/<token>', methods=['GET', 'POST'])
 def change_pswd(token):
@@ -224,8 +223,6 @@ def change_pswd(token):
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flash('Your password has been reset.','change_pswd')
+        flash('Your password has been reset.', 'change_pswd')
         return redirect(url_for('login'))
     return render_template('new_pswd.html', form=form)
-
-
