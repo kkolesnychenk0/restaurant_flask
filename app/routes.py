@@ -27,9 +27,9 @@ def index():
     price_total=0
     quantity_total=0
     products = Product.query.all()
-    product_group = Product.query.group_by(Product.product_type).all()
+    #product_group = Product.query.group_by(Product.product_type).all()
     #product_order = Product.query.order_by(Product.product_type).all()
-    #product_group=Product.query.distinct(Product.product_type)
+    product_group=Product.query.with_entities(Product.product_type).distinct()
     form = AddProductToCart()
     # product id list
     session_id = []
