@@ -26,23 +26,22 @@ def index():
     # for menu
     price_total=0
     quantity_total=0
-    session['card'] = []
+    #session['card'] = []
     products = Product.query.all()
     #product_group = Product.query.group_by(Product.product_type).all()
     #product_order = Product.query.order_by(Product.product_type).all()
     product_group=Product.query.with_entities(Product.product_type).distinct()
     form = AddProductToCart()
     # product id list
-    session_id = []
-    for list_item in session['card']:
-        if list_item['id'] not in session_id:
-            session_id.append(list_item['id'])
 
     if form.is_submitted():
         # active button
-        if 'card' not in session:
-            session['card'] = []
-        else:
+        if 'card' in session:
+            #session['card'] = []
+            session_id = []
+            for list_item in session['card']:
+                if list_item['id'] not in session_id:
+                    session_id.append(list_item['id'])
             if form.code.data in session_id:
                 for list_item in session['card']:
                     if list_item['id'] == form.code.data:
