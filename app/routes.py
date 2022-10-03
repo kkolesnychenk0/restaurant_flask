@@ -48,7 +48,9 @@ def index():
                 session['card'].append({'id': form.code.data, 'name': form.name.data, 'quantity': 1,
                                         'price': form.price.data})
             session.modified = True
-    price_total, quantity_total = sum_order()
+    #price_total, quantity_total = sum_order()
+    price_total = sum([list_item['price'] for list_item in session['card']])
+    quantity_total = sum([list_item['quantity'] for list_item in session['card']])
 
     return render_template('index.html', title='Menu', products=products, len=len(products),
                            product_group=product_group, form=form,
