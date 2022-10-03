@@ -62,11 +62,11 @@ def make_order():
     if request.method == 'POST':
         if current_user.is_authenticated:
             order = Order(user_id=current_user.id)
-            i = 1
+            #i = 1
             for item in session['card']:
-                product = Products_for_order(pr_id=f'{i}', product_id=item['id'], quantity=item['quantity'],
+                product = Products_for_order(product_id=item['id'], quantity=item['quantity'],
                                              total_price=item['price'], order_id=order.order_id)
-                i += 1
+                #i += 1
                 if product.quantity == 0:
                     continue
                 else:
