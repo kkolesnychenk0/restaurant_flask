@@ -24,15 +24,12 @@ def main():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     # for menu
-    price_total = 0
-    quantity_total = 0
+    #price_total=0
+    #quantity_total=0
     products = Product.query.all()
-    # product_group = Product.query.group_by(Product.product_type).all()
-    # product_order = Product.query.order_by(Product.product_type).all()
     product_group = Product.query.with_entities(Product.product_type).distinct()
     form = AddProductToCart()
     # product id list
-
     if form.is_submitted():
         # active button
         if 'card' in session:
@@ -49,7 +46,7 @@ def index():
                 session['card'].append({'id': form.code.data, 'name': form.name.data, 'quantity': 1,
                                         'price': form.price.data})
             session.modified = True
-            price_total, quantity_total = sum_order()
+    price_total, quantity_total = sum_order()
     return render_template('index.html', title='Menu', products=products, len=len(products),
                            product_group=product_group, form=form,
                            price_total=price_total, quantity_total=quantity_total)
