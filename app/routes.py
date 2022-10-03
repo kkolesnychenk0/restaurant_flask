@@ -31,20 +31,16 @@ def index():
     product_group=Product.query.distinct(Product.product_type)
     form = AddProductToCart()
     # product id list
-    #session_id = []
-    #for list_item in session['card']:
-    #    if list_item['id'] not in session_id:
-    #        session_id.append(list_item['id'])
+    session_id = []
+    for list_item in session['card']:
+        if list_item['id'] not in session_id:
+            session_id.append(list_item['id'])
 
     if form.is_submitted():
         # active button
         if 'card' not in session:
             session['card'] = []
         else:
-            session_id = []
-            for list_item in session['card']:
-                if list_item['id'] not in session_id:
-                    session_id.append(list_item['id'])
             if form.code.data in session_id:
                 for list_item in session['card']:
                     if list_item['id'] == form.code.data:

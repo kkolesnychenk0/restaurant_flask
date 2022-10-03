@@ -4,9 +4,7 @@ basedir=os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     #against attacks, generate signiture or tokens
-    #SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    SECRET_KEY=os.urandom(24)
-    SESSION_COOKIE_NAME="my_session"
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', '').replace(
         'postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(basedir, 'app.db')
     #SQLALCHEMY_DATABASE_URI = 'postgresql://yoguupsymkqcab:45e0edd4229991c42dbe18ee7386be68b0673abecc9203e51f' \
