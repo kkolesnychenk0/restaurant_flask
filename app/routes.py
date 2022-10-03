@@ -24,8 +24,6 @@ def main():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     # for menu
-    #price_total=0
-    #quantity_total=0
     products = Product.query.all()
     product_group = Product.query.with_entities(Product.product_type).distinct()
     form = AddProductToCart()
