@@ -26,9 +26,9 @@ def index():
     price_total=0
     quantity_total=0
     products = Product.query.all()
-    #product_group = Product.query.group_by(Product.product_type).all()
+    product_group = Product.query.group_by(Product.product_type).all()
     #product_order = Product.query.order_by(Product.product_type).all()
-    product_group=Product.query.distinct(Product.product_type)
+    #product_group=Product.query.distinct(Product.product_type)
     form = AddProductToCart()
     # product id list
     session_id = []
@@ -50,7 +50,6 @@ def index():
                 session['card'].append({'id': form.code.data, 'name': form.name.data, 'quantity': 1,
                                         'price': form.price.data})
             session.modified = True
-
             price_total, quantity_total = sum_order()
     #price_total, quantity_total = sum_order()
     return render_template('index.html', title='Menu', products=products, len=len(products),
