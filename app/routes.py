@@ -25,8 +25,8 @@ def index():
     # for menu
     products = Product.query.all()
     #product_group = Product.query.group_by(Product.product_type).all()
-    product_group = Product.query.order_by(Product.product_type).all()
-    product_order=Product.query.distinct(Product.product_type)
+    #product_order = Product.query.order_by(Product.product_type).all()
+    product_group=Product.query.distinct(Product.product_type)
     form = AddProductToCart()
     # product id list
     session_id = []
