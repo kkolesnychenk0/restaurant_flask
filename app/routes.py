@@ -10,10 +10,10 @@ from app.email import send_email, send_password_reset_email
 
 
 def sum_order():
-    #if 'card' in session:
-    price_total = sum([list_item['price'] for list_item in session['card']])
-    quantity_total = sum([list_item['quantity'] for list_item in session['card']])
-    return (price_total,quantity_total)
+    if 'card' in session:
+        price_total = sum([list_item['price'] for list_item in session['card']])
+        quantity_total = sum([list_item['quantity'] for list_item in session['card']])
+        return price_total, quantity_total
 
 
 @app.route('/', methods=['GET'])
@@ -24,6 +24,7 @@ def main():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     # for menu
+    global price,quantity
     products = Product.query.all()
     product_group = Product.query.with_entities(Product.product_type).distinct()
     form = AddProductToCart()
@@ -43,8 +44,10 @@ def index():
             else:
                 session['card'].append({'id': form.code.data, 'name': form.name.data, 'quantity': 1,
                                         'price': form.price.data})
+            price = sum([list_item['price'] for list_item in session['card']])
+            quantity = sum([list_item['quantity'] for list_item in session['card']])
             session.modified = True
-    price_total, quantity_total = sum_order()
+    price_total, quantity_total = price,quantity
     return render_template('index.html', title='Menu', products=products, len=len(products),
                            product_group=product_group, form=form,
                            price_total=price_total, quantity_total=quantity_total)
