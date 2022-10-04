@@ -14,6 +14,8 @@ def sum_order():
         price_total = sum([list_item['price'] for list_item in session['card']])
         quantity_total = sum([list_item['quantity'] for list_item in session['card']])
         return price_total, quantity_total
+    else:
+        return 0,0
 
 
 @app.route('/', methods=['GET'])
