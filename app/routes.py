@@ -13,7 +13,7 @@ def sum_order():
     if 'card' in session:
         price_total = sum([list_item['price'] for list_item in session['card']])
         quantity_total = sum([list_item['quantity'] for list_item in session['card']])
-        return price_total, quantity_total
+        return (price_total,quantity_total)
 
 
 @app.route('/', methods=['GET'])
@@ -163,8 +163,8 @@ def register():
         user = User(username=form.username.data, email=form.email.data, phone_number=form.phone_number.data)
         user.set_password(form.password.data)
         db.session.add(user)
-        time.sleep(5)
         flash('Congratulations, you are now a registered user!', 'register')
+        time.sleep(5)
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
