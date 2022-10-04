@@ -2,7 +2,7 @@
 {% block content %}
     <section id="menu">
         <div class="container">
-            <div class="row">
+            <div class="row" style="padding-top:30px;">
                 <div class="col-1" style="height:auto">
                     <ul class="menu_left">
                     {% for group in product_group%}
@@ -24,14 +24,15 @@
                                             <img src="/static/img/food.png" style="width:150px;">
                                         </a>
                                         <ul>
-                                            <li><a href="#" title="Ingredients"><i class="bi bi-search"></i></a></li>
+                                            <li><a href="#" title="Ingredients">Lorem ipsum dolor sit amet,
+                                                consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                                ut labore et dolore magna aliqua.</a></li>
                                         </ul>
                                     </figure>
                                     <div class="publication-content">
                                         <h3><a href="#">{{products[i].product_name}}</a></h3>
                                         <h4 class="price">$ {{products[i].price}}</h4>
                                     </div>
-
                                     <div class="add-to-cart">
                                         <input type="hidden" name="code" value="{{products[i].product_id}}"/>
                                         <input type="hidden" name="price" value="{{products[i].price}}"/>

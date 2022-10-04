@@ -95,31 +95,29 @@
 }
 .single-publication figure > a {
     background-color: #fafafa;
-    isplay: block;
 }
 .single-publication figure ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     position: absolute;
-    right: -50px;
+    right: -140px;
     top: 20px;
     transition: .6s;
     -webkit-transition: .6s;
 }
 .single-publication:hover figure ul {
-    right: 15px;
+    right: 25px;
 }
 .single-publication figure ul li a {
     display: inline-block;
-    width: 35px;
-    height: 35px;
+    width: 135px;
+    height: auto;
     text-align: center;
     font-size: 15px;
     background: #ff007d;
     margin-bottom: 7px;
-    border-radius: 50%;
-    line-height: 35px;
+    line-height: 15px;
     color: #fff;
 }
 .single-publication figure ul li a:hover {
