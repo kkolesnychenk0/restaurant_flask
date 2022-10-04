@@ -59,14 +59,13 @@ def make_order():
     if request.method == 'POST':
         if current_user.is_authenticated:
             order = Order(user_id=current_user.id)
-            if 'card' in session:
-                for item in session['card']:
-                    product = Products_for_order(product_id=item['id'], quantity=item['quantity'],
-                                                 total_price=item['price'], order_id=order.order_id)
-                    if product.quantity == 0:
-                        continue
-                    else:
-                        order.items.append(product)
+            for item in session['card']:
+                product = Products_for_order(product_id=item['id'], quantity=item['quantity'],
+                                             total_price=item['price'], order_id=order.order_id)
+                if product.quantity == 0:
+                    continue
+                else:
+                    order.items.append(product)
 
         else:
             return redirect(url_for('login'))
@@ -82,8 +81,9 @@ def make_order():
         session['card'] = []
         quantity_total = 0
         price_total = 0
-    products_in_order = session['card']
-    return render_template('cart.html', title='Cart', products_in_order=products_in_order, price_total=price_total,
+    if 'card' in session:
+        products_in_order = session['card']
+        return render_template('cart.html', title='Cart', products_in_order=products_in_order, price_total=price_total,
                            quantity_total=quantity_total)
 
 
