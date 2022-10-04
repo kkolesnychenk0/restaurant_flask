@@ -55,7 +55,7 @@ def index():
 @app.route('/make_order', methods=['GET', 'POST'])
 def make_order():
     price_total, quantity_total = sum_order()
-    products_in_order = session['card']
+
     if request.method == 'POST' and 'card' in session:
         if current_user.is_authenticated:
             order = Order(user_id=current_user.id)
@@ -68,7 +68,6 @@ def make_order():
                     order.items.append(product)
         else:
             return redirect(url_for('login'))
-        #products_in_order = session['card']
         db.session.add(order)
         db.session.commit()
         flash('You make an order', 'make_order')
@@ -81,6 +80,9 @@ def make_order():
         session['card'] = []
         quantity_total = 0
         price_total = 0
+    products_in_order = {}
+    if 'card' in session:
+        products_in_order = session['card']
     return render_template('cart.html', title='Cart', products_in_order=products_in_order, price_total=price_total,
                            quantity_total=quantity_total)
 
