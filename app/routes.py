@@ -59,13 +59,14 @@ def make_order():
     if request.method == 'POST':
         if current_user.is_authenticated:
             order = Order(user_id=current_user.id)
-            for item in session['card']:
-                product = Products_for_order(product_id=item['id'], quantity=item['quantity'],
-                                             total_price=item['price'], order_id=order.order_id)
-                if product.quantity == 0:
-                    continue
-                else:
-                    order.items.append(product)
+            if 'card' in session:
+                for item in session['card']:
+                    product = Products_for_order(product_id=item['id'], quantity=item['quantity'],
+                                                 total_price=item['price'], order_id=order.order_id)
+                    if product.quantity == 0:
+                        continue
+                    else:
+                        order.items.append(product)
         else:
             return redirect(url_for('login'))
 
