@@ -71,12 +71,7 @@ def make_order():
         db.session.add(order)
         db.session.commit()
         flash('You make an order', 'make_order')
-        send_email('[Fridays] New order',
-                   sender='admin@fridays.com',
-                   recipients=[current_user.email],
-                   text_body=render_template('email/new_order.txt', user=current_user),
-                   html_body=render_template('email/new_order.html', user=current_user))
-
+        send_email('[Fridays] New order', current_user.email, render_template('email/new_order.txt', user=current_user))
         session['card'] = []
         quantity_total = 0
         price_total = 0

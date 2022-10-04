@@ -9,6 +9,3 @@ class Config(object):
         'postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(basedir, 'app.db')
     #signal to app about changes in db
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    MAIL_SERVER = 'smtp.mailtrap.io'
-    MAIL_USERNAME = '34c508781b963a'
-    MAIL_PASSWORD= 'af0939aa4ca29e'
