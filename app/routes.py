@@ -67,9 +67,9 @@ def make_order():
                         continue
                     else:
                         order.items.append(product)
+
         else:
             return redirect(url_for('login'))
-
         db.session.add(order)
         db.session.commit()
         flash('You make an order', 'make_order')
@@ -82,8 +82,8 @@ def make_order():
         session['card'] = []
         quantity_total = 0
         price_total = 0
-
-    return render_template('cart.html', title='Cart', products_in_order=session['card'], price_total=price_total,
+    products_in_order = session['card']
+    return render_template('cart.html', title='Cart', products_in_order=products_in_order, price_total=price_total,
                            quantity_total=quantity_total)
 
 
