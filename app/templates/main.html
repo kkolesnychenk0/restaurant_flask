@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="main">
-        <img src="/static/img/main.png">
+    <div class="main container">
+        <div class="row">
+            <div class="col-7">
+                <img src="/static/img/main.png">
+            </div>
+            <div class="col-5" style="height:500px;">
+                <div class="about">
+                    <div><i class="bi bi-geo-alt"></i> Location:</div>
+                        <p>Ave. Pobedy, 49/2, Kyiv, 02000</p>
+                    <div><i class="bi bi-clock"></i> Open Hours:</div>
+                        <p>Mn-Fr: 8:00-20:00<br>Sat-Sun: 8:00-22:00</p>
+                    <div><i class="bi bi-envelope"></i> Email:</div>
+                        <p>admin@fridays.com</p>
+                    <div><i class="bi bi-phone"></i> Call:</div>
+                        <p>+38(099) 000 00 00<br>+38(067) 111 11 11</p>
+                </div>
+            </div>
+        </div>
     </div>
 {%endblock%}
