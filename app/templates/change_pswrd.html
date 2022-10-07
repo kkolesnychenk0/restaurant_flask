@@ -17,9 +17,9 @@
             <p class="edit-btn">{{ form.submit() }}</p>
             {% if form.validate_on_submit()%}
                 {% with messages = get_flashed_messages(category_filter="check_data") %}
-                    {% if messages %}
-                        <div class="msg_order">{{messages}}</div>
-                    {%endif%}
+                {% if messages %}
+                    <div class="msg_order">{{messages}}</div>
+                {%endif%}
                 {%endwith%}
             {%endif%}
         </form>

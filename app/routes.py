@@ -161,9 +161,8 @@ def register():
         user = User(username=form.username.data, email=form.email.data, phone_number=form.phone_number.data)
         user.set_password(form.password.data)
         db.session.add(user)
-        flash('Congratulations, you are now a registered user!', 'register')
-        time.sleep(5)
         db.session.commit()
+        time.sleep(40)
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -197,11 +196,11 @@ def edit_profile():
 def check_data():
     form = ChangePassword()
     user = User.query.filter_by(email=form.email.data).first()
-    if user:
+    if user is None:
+        flash('This email is not in the database', 'check_data')
+    else:
         send_password_reset_email(user)
         flash("Check your email for the instructions to reset your password.", 'check_data')
-    else:
-        flash('This email is not in the database', 'check_data')
     return render_template('change_pswrd.html', title='Reset Password', form=form)
 
 
